@@ -11,7 +11,7 @@
 
 
 
-die(char *message)
+void die(char *message)
 {
     printf("%s\n", message);
     exit(1);
@@ -40,9 +40,7 @@ int demux(char *filename)
 
     int audio_stream_id = NOT_FOUND;
     int video_stream_id = NOT_FOUND;
-    int i;
-
-    for (i = 0; i < context->nb_streams; i++) {
+    for (int i = 0; i < context->nb_streams; i++) {
         switch (context->streams[i]->codec->codec_type) {
             case AVMEDIA_TYPE_AUDIO:  /* Newer versions use CodecType enum! */
                 audio_stream_id = i;

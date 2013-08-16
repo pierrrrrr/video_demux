@@ -1,6 +1,6 @@
 CFLAGS += -lavformat -lavcodec
 
-CC += $(CFLAGS)
+CC += -std=c99 $(CFLAGS)
 
 
 video_demux: video_demux.c
