@@ -3,6 +3,11 @@
 
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
+#include <libavutil/avutil.h>
+
+
+
+#define NOT_FOUND -1;
 
 
 
@@ -29,6 +34,27 @@ int demux(char *filename)
 
     if (avformat_find_stream_info(context, NULL) < 0)
         die("could not find file info");
+
+
+    printf("number of streams: %i\n", context->nb_streams);
+
+    int audio_stream_id = NOT_FOUND;
+    int video_stream_id = NOT_FOUND;
+    int i;
+
+    for (i = 0; i < context->nb_streams; i++) {
+        switch (context->streams[i]->codec->codec_type) {
+            case AVMEDIA_TYPE_AUDIO:  /* Newer versions use CodecType enum! */
+                audio_stream_id = i;
+                break;
+            case AVMEDIA_TYPE_VIDEO:
+                video_stream_id = i;
+                break;
+        }
+    }
+    
+    printf("audio stream id: %i\n", audio_stream_id);
+    printf("video stream id: %i\n", video_stream_id);
 
 
     printf("parsing input\n");
